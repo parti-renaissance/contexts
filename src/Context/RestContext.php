@@ -52,11 +52,12 @@ class RestContext extends BaseContext
 
             if (is_string($row['value']) && substr($row['value'], 0, 1) == '@') {
                 $files[$row['key']] = rtrim($this->getMinkParameter('files_path'), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.substr($row['value'],1);
-            }
-            else {
-                $parameters[$row['key']] = $row['value'];
+            } else {
+                $parameters[] = sprintf('%s=%s', $row['key'], $row['value']);
             }
         }
+
+        parse_str(implode('&', $parameters), $parameters);
 
         return $this->request->send(
             $method,
