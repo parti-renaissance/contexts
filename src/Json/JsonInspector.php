@@ -2,6 +2,9 @@
 
 namespace Behatch\Json;
 
+use JsonSchema\SchemaStorage;
+use JsonSchema\Uri\UriResolver;
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -32,9 +35,9 @@ class JsonInspector
 
     public function validate(Json $json, JsonSchema $schema)
     {
-        $validator = new \JsonSchema\Validator();
+        $validator = new Validator();
 
-        $resolver = new \JsonSchema\SchemaStorage(new \JsonSchema\Uri\UriRetriever, new \JsonSchema\Uri\UriResolver);
+        $resolver = new SchemaStorage(new UriRetriever, new UriResolver);
         $schema->resolve($resolver);
 
         return $schema->validate($json, $validator);
